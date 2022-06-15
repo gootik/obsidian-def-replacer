@@ -1,73 +1,26 @@
-# Obsidian Sample Plugin
+# Obsidian Word Definition Replacer
+This is a simple plugin designed to solve a very specific problem that I had.
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+After installing this plugin you will be able to write `%%def:some word%%` in your notes and have it automatically replaced by the english definition of the word.
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
+For example `%%def:future%%` will be replaced by `The time ahead; those moments yet to be experienced.`
 
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
+This plugin is most useful when mixed with others. My current usecase is that I'd like to highlight words I don't know in Kindle while reading and have them automatically created as Anki flashcards to be reviewed later on.
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Changes the default font color to red using `styles.css`.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+Using the [Kindle Plugin](https://github.com/hadynz/obsidian-kindle-plugin) and [Spaced Repitition](https://github.com/st3v3nmw/obsidian-spaced-repetition) plugin I can highligh words in a specific color while reading on Kindle and automatically create flashcards. After install both of above plugins the following has been setup:
 
-## First time developing plugins?
+### Kindle Plugin
+Change the Highlight Template (color can be anything you'd like)
 
-Quick starting guide for new plugin devs:
+```
+{{ text }} — location: [{{ location }}]({{ appLink }})
+{% if color == "blue" %}{{text}}::%%def:{{text}}%%{% endif %}
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+{% if note %}{{note}}{% endif %}
 
-## Releasing new releases
+---
+```
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
-
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
-
-## Adding your plugin to the community plugin list
-
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
-
-## How to use
-
-- Clone this repo.
-- `npm i` or `yarn` to install dependencies
-- `npm run dev` to start compilation in watch mode.
-
-## Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
+Change File Template to include #flashcards as a tag
 
 
-## API Documentation
-
-See https://github.com/obsidianmd/obsidian-api
